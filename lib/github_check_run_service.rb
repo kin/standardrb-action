@@ -14,7 +14,10 @@ class GithubCheckRunService
     puts "running github check"
     puts "github data:"
     pp @github_data
+    puts ""
 
+    puts "endpoint_url: #{endpoint_url}"
+    puts ""
     resp = @client.post(
       endpoint_url,
       create_check_payload
@@ -25,8 +28,23 @@ class GithubCheckRunService
     puts "id: #{id}"
 
     @summary = @report_adapter.summary(@report)
+
+    puts
+    puts "summary:"
+    puts @summary
+
     @annotations = @report_adapter.annotations(@report)
+
+    puts
+    puts "annotations:"
+    puts @annotations
+
     @conclusion = @report_adapter.conclusion(@report)
+
+    puts
+    puts "conclusion:"
+    puts @conclusion
+    puts
 
     resp = @client.patch(
       "#{endpoint_url}/#{id}",
